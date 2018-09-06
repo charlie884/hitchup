@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Hitch Planner</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet">
+
+    <!-- Archivos base -->
+    <script src="cordova.js"></script>
+    <script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/kendo.mobile.min.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Plugins -->
+    <script src="js/plugins/noty.js"></script>
+    <link href="styles/plugins/noty.css" rel="stylesheet">
+    <script src="js/plugins/pace.js"></script>
+    <link href="styles/plugins/pace-theme.css" rel="stylesheet">
+    <script src="js/plugins/bootstrap-year-calendar.min.js"></script>
+    <link href="styles/plugins/bootstrap-year-calendar.min.css" rel="stylesheet">
+    <script src="js/plugins/moment.min.js"></script>
+    <link href="styles/plugins/fullcalendar.css" rel="stylesheet">
+    <script src="js/plugins/fullcalendar.min.js"></script>
+    <script src="js/plugins/currency.js"></script>
+    
+    <!-- CSS principal -->
+    <link href="styles/main.css" rel="stylesheet">
+    
+    <!-- Modelos -->
+    <script src="js/loginService.js"></script>
+    <script src="js/registryService.js"></script>
+    <script src="js/profileService.js"></script>
+    <script src="js/personalCalendarService.js"></script>
+    <script src="js/partnerCalendarService.js"></script>
+    <script src="js/specialDatesService.js"></script>
+    <script src="js/tutorialService.js"></script>
+    <script src="js/salaryService.js"></script>
+    <script src="js/downloadService.js"></script>
+</head>
+
+<body id="kendoUiMobileApp">
+    
+    <!-- LAYOUTS -->
+    <div data-role="layout" data-id="main">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>
+        <footer data-role="footer" data-align="center">
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <div data-role="layout" data-id="main-nomenu">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-align="left"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+            </div>
+        </header>
+        <footer data-role="footer" data-align="center">
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+
+    <div data-role="layout" data-id="main-nonav">
+        <footer data-role="footer" data-align="center">
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- Menu-->
+    <div id="appDrawer" data-role="drawer" data-title="Navigation" data-swipe-to-open="true" style="width: 80%"
+        data-swipe-to-open-views='["view-profile","view-terms","view-personal-calendar"]' data-position="rigth"
+        data-model="app.loginService.viewModel">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-menu"><img width="50%" src="images/logo_horizontal.png"></a>
+            </div>
+        </header>
+        <ul id="navigation-container" data-role="listview">
+            <li><a href="#view-profile"><img src="images/iconos/d_profile.png"> Profile</a></li>
+            <li><a href="#view-tutorial"><img src="images/iconos/d_tutorial.png"> Tutorial</a></li>
+            <li><a href="#view-personal-calendar"><img src="images/iconos/d_personal-calendar.png"> Personal Calendar</a></li>
+            <li><a href="#view-special-dates"><img src="images/iconos/d_special-dates.png"> Special Dates</a></li>
+            <li><a href="#view-partner-calendar"><img src="images/iconos/d_parther-calendar.png"> Back2Back Calendar</a></li>
+            <li><a href="#view-salary-calculator"><img src="images/iconos/d_incomes-deductions.png"> Salary Calculator</a></li>
+            <li><a href="#view-salary-report"><img src="images/iconos/d_incomes-report.png"> Salary Report</a></li>
+            <li><a href="#view-download-report"><img src="images/iconos/d_calendar_report.png"> Download Report</a></li>
+            <li><a href="#view-terms"><img src="images/iconos/d_terms.png"> Terms and Conditions</a></li>
+        </ul>
+        <footer data-role="footer" data-align="center">
+            <a data-bind="click: cerrarSesion"><img src="images/iconos/ico_close.png"> Log Out</a>
+        </footer>
+    </div>
+    
+    <!-- VIEWS -->
+    
+    <!-- View login -->
+    <div id="view-login" 
+        data-role="view"
+        data-title="Sign In"
+        data-layout="main-nonav"
+        data-model="app.loginService.viewModel"
+        data-show="app.loginService.viewModel.mostrar">
+        <div class="logo">
+            <a href="#view-menu"><img width="80%" src="images/logo_horizontal.png"></a>
+        </div> 
+        <div class="contenedor">
+            <h2>SIGN IN</h2>
+            <h3>SIGN IN YOUR ACCOUNT</h3>
+           <form id="form-login" data-bind="events: { submit: validar }" novalidate>
+                <input type="email" id="username" class="campotxt" placeholder="EMAIL"/><br>
+                <input type="password" id="password" class="campotxt" placeholder="PASSWORD" />
+                <span><input type="checkbox" id="remember" checked="checked"/>REMEMBER ME</span>
+                <a class="forgot" href="#view-remember">FORGOT PASSWORD?</a>       
+                <button id="buttonlogin" >LOGIN</button>
+                <div class="sep">o</div>
+                <a href="#view-registry"><button type="button" id="createaccount">CREATE ACCOUNT</button></a>
+            </form>
+        </div>
+    </div>    
+    
+    <!-- View remember password -->
+    <div id="view-remember" 
+        data-role="view" 
+        data-model="app.loginService.viewModel"
+        data-show="app.loginService.viewModel.mostrarRemember"
+        data-layout="main-nomenu">
+        
+        <h3>Please enter the email address associated with your user account.<br><br>A verification code will be sent to you.</h3>
+        <div class="contenedor">
+            <form id="r_pass" data-bind="events: { submit: recuperacion }" novalidate>
+                <div class="campo-group">
+                    <input type="email" id="email-remember" name="email" placeholder="EMAIL" class="campoRemember" />
+                    <button>SEND</button>
+                 </div>
+                <a href="#view-reset">I ALREADY HAVE MY RECOVERY CODE</a>   
+            </form>
+        </div>       
+     </div>
+    
+    <!-- View reset password -->
+    <div id="view-reset" 
+        data-role="view" 
+        data-model="app.loginService.viewModel"
+        data-show="app.loginService.viewModel.mostrarReset"
+        data-layout="main-nomenu">
+        <h3>Enter the password reset verification code you received by email.</h3>
+        <div class="contenedor">
+            <form id="form-reset" data-bind="events: { submit: codigo }" novalidate>
+                <input type="text" id="codigo" name="token" placeholder="VERIFICATION CODE" class="campoReset" /><br>
+                <input type="password" id="ncontra" name="password" placeholder="ENTER YOUR NEW PASSWORD" class="campoReset"/><br>
+                <input type="password" id="rcontra" name="rpassword" placeholder="CONFIRM YOUR NEW PASSWORD" class="campoReset" />
+
+                <button>RESET</button>
+             </form>
+        </div>
+     </div>
+    
+    
+    <!-- View registro -->
+    <div id="view-registry" 
+        data-role="view"
+        data-title="Sign Up"
+        data-layout="main-nonav"
+        data-model="app.registryService.viewModel">
+        <div class="logo">
+            <a href="#view-menu"><a href="#view-menu"><img width="80%" src="images/logo_horizontal.png"></a></a>
+        </div>
+        <div class="contenedor">
+            <h2>CREATE ACCOUNT</h2>
+            <h3>SIGN UP</h3>
+           <form id="form-registry" data-bind="events: { submit: validar }" novalidate>
+                <input type="text" id="name" class="campoRegistro" placeholder="NAME"/><br>
+                <input type="email" id="email" class="campoRegistro" placeholder="EMAIL"/><br>
+                <input type="password" id="password-r" class="campoRegistro" placeholder="PASSWORD" />
+                <input type="text" id="country" class="campoRegistro" placeholder="COUNTRY"/><br>
+                <input type="text" id="work-country" class="campoRegistro" placeholder="WORK COUNTRY"/><br>
+                <input type="text" id="current" class="campoRegistro" placeholder="CURRENT POSITION"/><br>
+                <input type="text" id="company" class="campoRegistro" placeholder="COMPANY"/><br>
+                <span><input type="checkbox" id="checkboxTerms"/><a href="#view-terms">ACCEPT TERMS AND CONDITIONS</a></span>
+                <button id="buttonlogin" >CREATE ACCOUNT</button> 
+                <a href="#view-login" class="login" data-align="right">I ALREADY HAVE AN ACCOUNT</a>
+            </form>
+        </div>
+    </div>
+    
+    <!-- View menu -->
+    <div id="view-menu" 
+        data-role="view"
+        data-title="Menú principal"
+        data-layout="main-nonav"
+        data-init="app.loginService.viewModel.iniciarPush">
+        <div class="logo">
+            <img width="60%" src="images/logo_vertical.png">
+        </div>        
+        <div class="row">
+            <a class="item" href="#view-profile">
+                <img class="img-item item-blue" src="images/iconos/profile.png">
+                <p>Profile</p>
+            </a>
+            <a href="#view-tutorial"  class="item">
+                <img class="img-item" src="images/iconos/tutorial.png">
+                <p class="white">Tutorial</p>
+            </a>            
+            <a href="#view-personal-calendar" class="item">
+                <img class="img-item item-blue" src="images/iconos/personal-calendar.png">
+                <p>Personal Calendar</p>
+            </a>
+        </div>        
+        <div class="row">
+            <a href="#view-special-dates" class="item">
+                <img class="img-item item-blue" src="images/iconos/special-dates.png">
+                <p>Special Dates</p>
+            </a>
+            <a href="#view-partner-calendar" class="item">
+                <img class="img-item" src="images/iconos/parther-calendar.png">
+                <p>Back2Back Calendar</p>
+            </a>
+            
+            <a href="#view-salary-calculator" class="item">
+                <img class="img-item item-blue" src="images/iconos/incomes-deductions.png">
+                <p class="item-menu-g">Salary Calculator</p>
+            </a>
+        </div>        
+        <div class="row">
+            <a href="#view-salary-report" class="item">
+                <img class="img-item item-blue" src="images/iconos/incomes-report.png">
+                <p>Salary Report</p>
+            </a>
+            <a href="#view-download-report" class="item">
+                <img class="img-item" src="images/iconos/calendar_report.png">
+                <p class="white">Download Report</p>
+            </a>
+            
+            <a href="#view-terms" class="item">
+                <img class="img-item item-blue item-menu-bg" src="images/iconos/terms.png">
+                <p>Terms and Conditions</p>
+            </a>
+        </div>            
+    </div>
+    
+    <!-- View profile -->
+    <div id="view-profile" 
+        data-role="view"
+        data-title="Profile"
+        data-layout="main"
+        data-model="app.profileService.viewModel"
+        data-show="app.profileService.viewModel.mostrar">
+        <h3>Profile</h3>
+        <div class="contenedor">
+           <form id="form-profile" data-bind="events: { submit: validar }" novalidate>
+                <input type="text" id="nameEditar" class="campoEditar" placeholder="NAME"/><br>
+                <input type="email" id="emailEditar" class="campoEditar" placeholder="EMAIL"/><br>
+                <input type="password" id="passwordEditar" class="campoEditar" placeholder="PASSWORD" />
+                <input type="text" id="countryEditar" class="campoEditar" placeholder="COUNTRY"/><br>
+                <input type="text" id="work-countryEditar" class="campoEditar" placeholder="WORK COUNTRY"/><br>
+                <input type="text" id="currentEditar" class="campoEditar" placeholder="CURRENT POSITION"/><br>
+                <input type="text" id="companyEditar" class="campoEditar" placeholder="COMPANY"/><br>
+                <button id="buttonlogin" >SAVE</button> 
+            </form>
+        </div>
+    </div>
+    
+    <!-- View terms -->
+    <div id="view-terms" 
+        data-role="view"
+        data-title="Términos y condiciones"
+        data-layout="main"
+        data-model="app.loginService.viewModel"
+        data-show="app.loginService.viewModel.mostrarTerminos">
+        <div id="contentTerminos"></div>
+    </div>
+        
+    <!-- View personal calendar -->
+    <div id="view-personal-calendar" 
+        data-role="view"
+        data-title="Personal Calendar"
+        data-layout="main-convenciones"
+        data-model="app.personalCalendarService.viewModel"
+        data-show="app.personalCalendarService.viewModel.mostrar">
+        
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-menu" data-align="left" data-role="button"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>        
+        <h3>Personal Calendar</h3>
+        <div id="personal-calendar"></div>
+        
+        <footer data-role="footer" data-align="center">
+            <div class="convenciones">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td><div class="color work"></div></td>
+                            <td><div class="color stand"></div></td>
+                            <td><div class="color home"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Working</td>
+                            <td>Stand by</td>
+                            <td>Home</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- View personal detail -->
+    <div id="view-personal-detail"
+        data-role="view"
+        data-title="Personal Calendar"
+        data-model="app.personalCalendarService.viewModel"
+        data-show="app.personalCalendarService.viewModel.iniciarDetalle"
+        data-hide="app.personalCalendarService.viewModel.ocultarCalendario">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-personal-calendar" data-align="left" data-role="button"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>
+        
+        <h3>Personal Calendar</h3>
+        <div id="calendarDetail"></div>
+        
+        <footer data-role="footer" data-align="center">
+            <div class="convenciones">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td><div class="color work"></div></td>
+                            <td><div class="color stand"></div></td>
+                            <td><div class="color home"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Working</td>
+                            <td>Stand by</td>
+                            <td>Home</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- View personal form -->
+    <div id="view-personal-form"
+        data-role="view"
+        data-title="Form personal"
+        data-layout="main"
+        data-model="app.personalCalendarService.viewModel"
+        data-show="app.personalCalendarService.viewModel.iniciarForm">
+        <h3 class="fecha_actual"></h3>
+       <form id="formPersonal" data-bind="events: { submit: validarPersonal }" novalidate>
+            <select class="campoPersonal" name="estado" id="estadoPersonal">
+                <option value="1" selected="selected">Working</option>
+                <option value="2">Stand by</option>
+                <option value="3">Home</option>
+            </select>
+            <table width="100%">
+                <tr>
+                    <td width="45%"><input class="campoPersonal" id="fechaInicialPersonal" type="date" required="required" placeholder=""></td>
+                    <td width="10%" class="sep">To</td>
+                    <td width="45%"><input class="campoPersonal" id="fechaFinPersonal" type="date" required="required" placeholder=""></td>
+                </tr>
+            </table>
+            <textarea id="descripcionPersonal" class="campoPersonal" placeholder="Description"></textarea>
+            <button style="display:none;" id="buttonFormPersonal" ><img src="images/btn_save.png"></button> 
+        </form>
+    </div>
+    
+    <!-- View personal form edit -->
+    <div id="view-personal-form-edit"
+        data-role="view"
+        data-title="Form personal"
+        data-layout="main"
+        data-model="app.personalCalendarService.viewModel"
+        data-show="app.personalCalendarService.viewModel.edicionForm">
+        <h3 class="fecha_actual_editar"></h3>
+       <form id="formPersonalEdit" data-bind="events: { submit: guardarPersonal }" novalidate>
+            <select class="campoPersonal" name="estado" id="estadoPersonalEdit">
+                <option value="1">Working</option>
+                <option value="2">Stand by</option>
+                <option value="3">Home</option>
+            </select>
+            <table width="100%">
+                <tr>
+                    <td width="45%"><input class="campoPersonal" id="fechaInicialPersonalEdit" type="date" required="required" placeholder=""></td>
+                    <td width="10%" class="sep">To</td>
+                    <td width="45%"><input class="campoPersonal" id="fechaFinPersonalEdit" type="date" required="required" placeholder=""></td>
+                </tr>
+            </table>
+            <textarea id="descripcionPersonalEdit" class="campoPersonal" placeholder="Description"></textarea>
+            <div style="display:inline-flex;">
+                <button style="display:none;" id="buttonFormPersonalEdit"><img src="images/btn_save.png"></button>  
+                <img style="display:none;" onclick="app.personalCalendarService.viewModel.eliminarPersonal()" class="btn_delete" src="images/btn_delete.png"> 
+            </div>            
+        </form>
+    </div>
+        
+        
+    <!-- View partner calendar -->
+    <div id="view-partner-calendar" 
+        data-role="view"
+        data-title="Partner Calendar"
+        data-layout="main-convenciones"
+        data-model="app.partnerCalendarService.viewModel"
+        data-show="app.partnerCalendarService.viewModel.mostrar">
+        
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-menu" data-align="left" data-role="button"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>
+        <h3>Back2Back Calendar</h3>
+        <div class="slide-partner">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td width="80%"><input id="nombrePartner" type="text" placeholder="Partner Name"></td>
+                        <td width="20%"><a data-bind="click: guardarPartner"><img src="images/btn_save.png"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a class="btn_add" data-bind="click: modificarPartner" data-align="left" data-role="button"><img src="images/btn_add.png"></a>
+    
+        <div id="partner-calendar"></div>
+        
+        <footer data-role="footer" data-align="center">
+            <div class="convenciones">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td><div class="color personal"></div></td>
+                            <td><div class="color partner"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="nombre_personal"></td>
+                            <td class="nombre_partner"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- View partner detail -->
+    <div id="view-partner-detail"
+        data-role="view"
+        data-title="Partner Calendar"
+        data-model="app.partnerCalendarService.viewModel"
+        data-show="app.partnerCalendarService.viewModel.iniciarDetalle"
+        data-hide="app.partnerCalendarService.viewModel.ocultarCalendario">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-partner-calendar" data-align="left" data-role="button"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>
+        
+        <h3>Back2Back Calendar</h3>
+        <div id="calendarDetailPartner"></div>
+        
+        <footer data-role="footer" data-align="center">
+            <div class="convenciones">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td><div class="color personal"></div></td>
+                            <td><div class="color partner"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="nombre_personal"></td>
+                            <td class="nombre_partner"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+      
+    <!-- View partner form -->
+    <div id="view-partner-form"
+        data-role="view"
+        data-title="Form partner"
+        data-layout="main"
+        data-model="app.partnerCalendarService.viewModel"
+        data-show="app.partnerCalendarService.viewModel.iniciarForm">
+        <h3 class="fecha_actual_partner"></h3>
+       <form id="formPartner" data-bind="events: { submit: validarPartner }" novalidate>
+            <select class="campoPartner" name="estado" id="tipoPartner">
+                <option value="1">Personal</option>
+                <option value="2">Partner</option>
+            </select> 
+            <select class="campoPartner" name="estado" id="estadoPartner" disabled="true">
+                <option value="1" selected="selected">Working</option>
+            </select>
+            <table width="100%">
+                <tr>
+                    <td width="45%"><input class="campoPartner" id="fechaInicialPartner" type="date" required="required" placeholder=""></td>
+                    <td width="10%" class="sep">To</td>
+                    <td width="45%"><input class="campoPartner" id="fechaFinPartner" type="date" required="required" placeholder=""></td>
+                </tr>
+            </table>
+            <textarea class="campoPartner" id="descripcionPartner" placeholder="Description"></textarea>
+            <button style="display:none;" id="buttonFormPartner" ><img src="images/btn_save.png"></button>  
+        </form>
+    </div>
+    <!-- View partner form edit -->
+    <div id="view-partner-form-edit"
+        data-role="view"
+        data-title="Form partner"
+        data-layout="main"
+        data-model="app.partnerCalendarService.viewModel"
+        data-show="app.partnerCalendarService.viewModel.edicionForm">
+        <h3 class="fecha_actual_editar_partner"></h3>
+       <form id="formPartnerEdit" data-bind="events: { submit: guardarPartnerForm }" novalidate>
+            <select class="campoPartner" name="estado" id="tipoPartnerEditar">
+                <option value="1">Personal</option>
+                <option value="2">Partner</option>
+            </select> 
+            <select class="campoPartner" name="estado" id="estadoPartnerEdit" disabled="true">
+                <option value="1">Working</option>
+            </select>
+            <table width="100%">
+                <tr>
+                    <td width="45%"><input class="campoPartner" id="fechaInicialPartnerEdit" type="date" required="required" placeholder=""></td>
+                    <td width="10%" class="sep">To</td>
+                    <td width="45%"><input class="campoPartner" id="fechaFinPartnerEdit" type="date" required="required" placeholder=""></td>
+                </tr>
+            </table>
+            <textarea class="campoPartner" id="descripcionPartnerEdit" placeholder="Description"></textarea>
+            <div style="display:inline-flex;">
+                <button style="display:none;" id="buttonFormPartnerEdit" ><img src="images/btn_save.png"></button> 
+                <img style="display:none;" onclick="app.partnerCalendarService.viewModel.eliminarPartner()" class="btn_delete" src="images/btn_delete.png">
+            </div>            
+        </form>
+    </div>
+    
+      
+    <!-- View special dates -->
+    <div id="view-special-dates" 
+        data-role="view"
+        data-title="Special Dates"
+        data-model="app.specialDatesService.viewModel"
+        data-show="app.specialDatesService.viewModel.mostrar"
+        data-hide="app.specialDatesService.viewModel.ocultarCalendario">
+  
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-menu" data-align="left" data-role="button"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>
+        
+        <h3>Special Dates</h3>
+        <div id="special-dates"></div>
+
+        <footer data-role="footer" data-align="center">
+            <div class="add">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td><a href="#view-special-form"><img width="80" src="images/add.png"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- View special date form -->
+    <div id="view-special-form"
+        data-role="view"
+        data-title="Form special"
+        data-layout="main"
+        data-model="app.specialDatesService.viewModel"
+        data-show="app.specialDatesService.viewModel.iniciarForm">
+        <h3>Add special date</h3>
+       <form id="formSpecial" data-bind="events: { submit: validarSpecial }" novalidate>
+            <table width="100%">
+                <tr>
+                    <td><input class="campoSpecial" id="fechaSpecial" type="date" required="required" placeholder=""></td>
+                </tr>
+            </table>
+            <input class="campoSpecial" id="tituloSpecial" placeholder="Title" type="text"/>
+            <textarea class="campoSpecial" id="descripcionSpecial" placeholder="Description"></textarea>
+            <button id="buttonFormSpecial" ><img src="images/btn_save.png"></button> 
+        </form>
+    </div>
+    <!-- View special date form edit -->
+    <div id="view-special-form-edit"
+        data-role="view"
+        data-title="Form special"
+        data-layout="main"
+        data-model="app.specialDatesService.viewModel"
+        data-show="app.specialDatesService.viewModel.edicionForm">
+        <h3>Edit special date</h3>
+       <form id="formSpecialEdit" data-bind="events: { submit: guardarSpecial }" novalidate>
+            <table width="100%">
+                <tr>
+                    <td><input class="campoSpecial" id="fechaSpecialEdit" type="date" required="required" placeholder=""></td>
+                </tr>
+            </table>
+            <input class="campoSpecial" id="tituloSpecialEdit" placeholder="Title" type="text"/>
+            <textarea class="campoSpecial" id="descripcionSpecialEdit" placeholder="Description"></textarea>
+            <button id="buttonFormSpecialEdit" ><img src="images/btn_save.png"></button> 
+        </form>
+    </div>
+    
+    <!-- View tutorials -->
+    <div id="view-tutorial"
+        data-role="view"
+        data-title="Tutorial"
+        data-layout="main"
+        data-model="app.tutorialService.viewModel"
+        data-show="app.tutorialService.viewModel.mostrar">
+        
+        <h3>Tutorials</h3>
+        <div id="tutoriales"></div>
+    </div>
+    <script type="text/x-kendo-template" id="template-tutoriales">
+        <a data-transition="fade" href="\#view-tutorial-detail?imagen=${imagen}">
+            <div class="icono"><img src="${icono}"></div>
+            <div class="titulo">#: titulo #</div>
+        </a>
+    </script>
+    
+    <!-- View tutorial detail -->
+    <div id="view-tutorial-detail"
+        data-role="view"
+        data-title="Tutorial"
+        data-layout="main"
+        data-model="app.tutorialService.viewModel"
+        data-show="app.tutorialService.viewModel.mostrarDetalle"
+        data-hide="app.tutorialService.viewModel.ocultarDetalle">
+        <header data-role="header">
+            <div data-role="navbar">
+                <a href="#view-tutorial" data-align="left" data-role="button"><img src="images/iconos/backbutton.png"></a>
+                <a href="#view-menu"><img width="40%" src="images/logo_horizontal.png"></a>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="right"><img src="images/iconos/ico_menu.png"></a>
+            </div>
+        </header>
+        
+        <img id="imgTutorial" />
+
+        <footer data-role="footer" data-align="center">
+            &copy; 2017 MyHitchPlanner | Emerald Studio. All rights reserved.
+        </footer>
+    </div>
+    
+    <!-- View salary calculator -->
+    <div id="view-salary-calculator"
+        data-role="view"
+        data-title="Salary Calculator"
+        data-layout="main"
+        data-model="app.salaryService.viewModel"
+        data-show="app.salaryService.viewModel.mostrarForm"
+        data-use-native-scrolling="true">
+        
+        <h3>Salary Calculator</h3>
+       <form id="formBasic" data-bind="events: { submit: calcularSalary }" novalidate>
+            <h4>Select Month</h4>
+            <div class="centrado">
+                <input id="dateBasic" type="month" name="date-incomes">
+            </div>
+            <h4>Incomes</h4>
+            <div class="centrado">
+                <table width="100%">
+                    <tr>
+                        <td colspan="2">
+                            <select class="campoSalary" id="currencyBasic">
+                                <option value="0">Select currency</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="basicBasic" class="campoSalary" type="number" placeholder="Basic" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="dailyBasic" class="campoSalary" type="number"placeholder="Daily rate" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="standBasic" class="campoSalary" type="number"placeholder="Stand by rate" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="extraBasic" class="campoSalary" type="number"placeholder="Extras" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                </table>
+            </div>           
+            <h4>Deduction from basic</h4>
+            <div class="centrado"> 
+                <table width="100%">
+                    <tr>
+                        <td class="simbolo" width="10%">%</td>
+                        <td><input id="taxe1Basic" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Taxes 1"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="insurance1Basic" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Insurance 1"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo" width="10%">%</td>
+                        <td><input id="taxe2Basic" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Taxes 2"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="insurance2Basic" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Insurance 2"></td>
+                    </tr>
+                </table>
+            </div>
+             <h4>Deduction and extras from total</h4>
+                  <div class="centrado">
+                     <table width="100%">
+                        <tr>
+                            <td class="simbolo moneda" width="10%"></td>
+                            <td><input id="extraTotal1" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Extra 1 " value="${incomes_extra_1}"></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="10%"></td>
+                            <td><input id="extraTotal2" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Extra 2 " value="${incomes_extra_2}"></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="10%">%</td>
+                            <td><input id="taxe1Total" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Tax 1" value="${incomes_taxes_1}"></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="10%"></td>
+                            <td><input id="insurance1Total" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Insurance 1" value="${incomes_insurance_1}"></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="10%">%</td>
+                            <td><input id="taxe2Total" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Tax 2" value="${incomes_taxes_2}"></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="10%"></td>
+                            <td><input id="insurance2Total" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Insurance 2" value="${incomes_insurance_2}"></td>
+                        </tr>
+                    </table> 
+                  </div>   
+            <button id="buttonCalculeBasic" ><img src="images/btn_calculate.png"></button> 
+        </form>
+    </div>
+    
+    
+    <!-- View salary report -->
+    <div id="view-salary-report"
+        data-role="view"
+        data-title="Salary Reporte"
+        data-layout="main"
+        data-model="app.salaryService.viewModel"
+        data-show="app.salaryService.viewModel.loadSalaries"
+        data-hide="app.salaryService.viewModel.hideSalaries"
+        data-use-native-scrolling="true">
+        <h3>Salary Report</h3>
+        <div id="cont_salaries">
+            <ul id="salaries"></ul>
+        </div>
+    </div>
+    <script type="text/x-kendo-template" id="template-salaries">
+        <div id="salary-${id}">
+            <div id="collapsible" data-role="collapsible" data-collapsed="true "data-expand="app.salaryService.viewModel.expandHandler">
+                <h2>
+                    #: month #, #: year # / <span class="precio moneda">#: iso_moneda # </span> <span class="total_incomes"> #: total_incomes #</span>
+                </h2>
+                <div id="dropdown">
+                <h4>Incomes</h4>
+                    <table width="100%">
+                        <tr>
+                            <td class="simbolo" width="40%">Basic</td>
+                            <td class="simbolo moneda2"><span class="mon">${basic}</span><span>&nbsp;${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Daily rate</td>
+                            <td class="simbolo moneda2"><span class="mon">${calc_daily}&nbsp;</span><span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Stand by rate</td>
+                            <td class="simbolo moneda2"><span class="mon">${calc_standby}</span><span>&nbsp;${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Extras</td>
+                            <td class="simbolo moneda2"><span class="mon">${extras}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Total incomes</td>
+                            <td class="simbolo moneda2"><span class="mon">${total_in}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                    </table>        
+                    <h4>Deduction from basic</h4>
+                    <table width="100%">
+                        <tr>
+                            <td class="simbolo" width="40%">Taxes 1  &nbsp;(${basic_taxes_1}<span>%</span>)</td>
+                            <td class="simbolo moneda2"> <span class="mon">${d_basic}</span> &nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="40%">Insurance 1</td>
+                            <td class="simbolo moneda2"><span class="mon">${basic_insurance_1}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Taxes 2 &nbsp;(${basic_taxes_2}<span>% </span>)</td>
+                            <td class="simbolo moneda2"><span class="mon"> ${d_basic_2}</span>&nbsp;<span>${iso_moneda} </span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="40%">Insurance 2</td>
+                            <td class="simbolo moneda2"><span class="mon">${basic_insurance_2}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                    </table>        
+                     <h4>Deduction and extras from total</h4>
+                     <table width="100%">
+                        <tr>
+                            <td class="simbolo moneda" width="40%">Extra income 1</td>
+                            <td class="simbolo moneda2"><span class="mon">${incomes_extra_1}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="10%">Extra income 2</td>
+                            <td class="simbolo moneda2"><span class="mon">${incomes_extra_2}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Additional Tax 1 (${incomes_taxes_1}<span>% </span>)</td>
+                            <td class="simbolo moneda2"><span class="mon">${tax_add1}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="40%">Additional Insurance 1</td>
+                            <td class="simbolo moneda2"><span class="mon">${incomes_insurance_1}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo" width="40%">Additional Tax 2 (${incomes_taxes_2}<span>% </span>)</td>
+                            <td class="simbolo moneda2"><span class="mon">${tax_add2}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="simbolo moneda" width="40%">Additional Insurance 2</td>
+                            <td class="simbolo moneda2"><span class="mon">${incomes_insurance_2}</span>&nbsp;<span>${iso_moneda}</span></td>
+                        </tr>
+                    </table>
+                   <h4>Total incomes</h4>
+                    <table>
+                        <tr>
+                            <td class="simbolo moneda" width="40%">Total</td>
+                            <td class="simbolo moneda2"><span class="mon">#: total_incomes #</span></td>
+                        </tr>
+                    </table>
+                    <!--<button onclick="app.salaryService.viewModel.totalSalary(${id})" id="buttonCalculeTotal" ><img src="images/btn_calculate.png"></button>-->
+                </div>
+            </div>
+            <a href="\\#" data-role="button" data-icon="edit" class="edit km-primary"></a>
+            <a href="\\#" data-role="button" data-icon="trash" class="delete km-primary"></a>
+        </div>
+    </script>
+    
+    
+    <!-- View salary calculator edit -->
+    <div id="view-salary-calculator-edit"
+        data-role="view"
+        data-title="Salary Calculator"
+        data-layout="main"
+        data-model="app.salaryService.viewModel"
+        data-show="app.salaryService.viewModel.iniciarForm"
+        data-use-native-scrolling="true">
+        
+        <h3>Salary Calculator</h3>
+       <form id="formBasic" data-bind="events: { submit: calcularSalaryEdit }" novalidate>
+            <h4>Select date</h4>
+            <div class="centrado">
+                <input id="dateBasicEdit" type="month" name="date-incomes">
+            </div>
+            <h4>Incomes</h4>
+            <div class="centrado">
+                <table width="100%">
+                    <tr>
+                        <td colspan="2">
+                            <select class="campoSalary" id="currencyBasicEdit">
+                                <option value="0">Select currency</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="basicBasicEdit" class="campoSalary" type="number" placeholder="Basic" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="dailyBasicEdit" class="campoSalary" type="number"placeholder="Daily rate" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="standBasicEdit" class="campoSalary" type="number"placeholder="Stand by rate" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="extraBasicEdit" class="campoSalary" type="number"placeholder="Extras" onKeyPress="return app.numbersonly(this, event)"></td>
+                    </tr>
+                </table>
+            </div>           
+            <h4>Deduction from basic</h4>
+            <div class="centrado"> 
+                <table width="100%">
+                    <tr>
+                        <td class="simbolo" width="10%">%</td>
+                        <td><input id="taxe1BasicEdit" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Taxes 1"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="insurance1BasicEdit" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Insurance 1"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo" width="10%">%</td>
+                        <td><input id="taxe2BasicEdit" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Taxes 2"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="insurance2BasicEdit" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Insurance 2"></td>
+                    </tr>
+                </table>
+            </div>
+            <h4>Deduction and extras from total</h4>
+              <div class="centrado">
+                 <table width="100%">
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="extraTotal_e" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Extra 1 "></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="extraTotal2_e" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Extra 2 "></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo" width="10%">%</td>
+                        <td><input id="taxe1Total_e" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Tax 1"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="insurance1Total_e" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Insurance 1"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo" width="10%">%</td>
+                        <td><input id="taxe2Total_e" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Tax 2"></td>
+                    </tr>
+                    <tr>
+                        <td class="simbolo moneda" width="10%"></td>
+                        <td><input id="insurance2Total_e" class="campoSalary" type="number" onKeyPress="return app.numbersonly(this, event)" placeholder="Additional Insurance 2"></td>
+                    </tr>
+                </table> 
+              </div>            
+            <button id="buttonCalculeBasicEdit" ><img src="images/btn_calculate.png"></button> 
+        </form>
+    </div>
+    
+    
+    <!-- View download report -->
+    <div id="view-download-report"
+        data-role="view"
+        data-title="Download Report"
+        data-layout="main"
+        data-model="app.downloadService.viewModel"
+        data-show="app.downloadService.viewModel.mostrar">
+        
+        <h3>Download reports</h3>
+       <form id="formBasic" data-bind="events: { submit: generarReporte }" novalidate>
+            <div class="cont100">
+                <div class="cont70">Download year report</div>
+                <div class="cont30"><input data-change="app.downloadService.viewModel.onChangeYear" id="reportYearD" type="checkbox" data-role="switch" data-checked="false" data-off-label="No" data-on-label="Yes" /></div>
+            </div>
+             <div class="centrado"> 
+                 
+                <div class="cont100">
+                    <div class="cont30 contMonth">Month</div>
+                    <div class="cont70 contMonth">
+                        <select id="monthD">
+                                <option value="01" selected="selected">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="cont30">Year</div>
+                    <div class="cont70">
+                        <select id="yearD">
+                                <option selected="selected" value="0">Select year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cont100">
+                    <div class="cont70">Personal Calendar</div>
+                    <div class="cont30"><input data-change="app.downloadService.viewModel.onChangePersonalCal" id="personalCalendarD" type="checkbox" data-role="switch" data-checked="true" data-off-label="No" data-on-label="Yes" /></div>
+                </div>
+                <div class="cont100">
+                    <div class="cont70">Partner Calendar</div>
+                    <div class="cont30"><input data-change="app.downloadService.viewModel.onChangePartnerCal" id="partnerCalendarD" type="checkbox" data-role="switch" data-checked="false" data-off-label="No" data-on-label="Yes" /></div>
+                </div>
+                <div class="cont100">
+                    <div class="cont70">Special Dates</div>
+                    <div class="cont30"><input data-change="app.downloadService.viewModel.onChangeSpecialDates" id="specialDatesD" type="checkbox" data-role="switch" data-checked="false" data-off-label="No" data-on-label="Yes" /></div>
+                </div>
+            </div>
+            <button id="buttonReport" ><img src="images/btn_download.png"></button>
+           <div type="button" class="loading"></div>
+           <div class="share"></div>
+        </form>
+    </div>
+</body>
+
+</html>
