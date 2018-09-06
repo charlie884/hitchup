@@ -101,44 +101,44 @@
                   }
                 });*/ 
                 
-                cordova.getAppVersion(function(value) {
-                    console.log(value);
-                    // Validate AppVersion
-                    $.ajax({
-                        method:'GET',
-                        url: app.servidor+'validateAppVersion',
-                        dataType: 'json',
-                        data:{
-                            appVersion:value,
-                        }
-                    })
-                    .done(function(response) {
-                        console.log(JSON.stringify(response));  
-                        if(response.status === 1){ 
-                            console.log(response.message);
-                        } else {
-                            function updateApp() {
-                               if (device.platform == 'Android') {
-                                   //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
-                                   fallbackLink =""
-                                    window.open(fallbackLink, '_blank', 'location=yes'); 
-                                }
-                                if (device.platform == 'iOS') { 
-                                    //fallbackLink = 'https://itunes.apple.com/us/app/FaciDoc/id1141940366?mt=8';
-                                    fallbackLink =""
-                                    window.open(fallbackLink, '_blank', 'location=yes'); 
-                                }                     
-                            }
+                // cordova.getAppVersion(function(value) {
+                //     console.log(value);
+                //     // Validate AppVersion
+                //     $.ajax({
+                //         method:'GET',
+                //         url: app.servidor+'validateAppVersion',
+                //         dataType: 'json',
+                //         data:{
+                //             appVersion:value,
+                //         }
+                //     })
+                //     .done(function(response) {
+                //         console.log(JSON.stringify(response));  
+                //         if(response.status === 1){ 
+                //             console.log(response.message);
+                //         } else {
+                //             function updateApp() {
+                //                if (device.platform == 'Android') {
+                //                    //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
+                //                    fallbackLink =""
+                //                     window.open(fallbackLink, '_blank', 'location=yes'); 
+                //                 }
+                //                 if (device.platform == 'iOS') { 
+                //                     //fallbackLink = 'https://itunes.apple.com/us/app/FaciDoc/id1141940366?mt=8';
+                //                     fallbackLink =""
+                //                     window.open(fallbackLink, '_blank', 'location=yes'); 
+                //                 }                     
+                //             }
 
-                            navigator.notification.alert(
-                                response.message, // message
-                                updateApp, // callback
-                                'Actualización', // title
-                                'Ir a la tienda' // buttonName
-                            );
-                        }
-                    });
-                });
+                //             navigator.notification.alert(
+                //                 response.message, // message
+                //                 updateApp, // callback
+                //                 'Actualización', // title
+                //                 'Ir a la tienda' // buttonName
+                //             );
+                //         }
+                //     });
+                // });
             }
             if (navigator && navigator.splashscreen) {
                 navigator.splashscreen.hide();
