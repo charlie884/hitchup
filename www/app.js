@@ -84,7 +84,7 @@
             
             //Cuando se encuentre listo...
             if (window.navigator.simulator !== true){
-                
+                 
    
                 //Google Analytics
                 //window.analytics.startTrackerWithId('UA-75229632-1'); 
