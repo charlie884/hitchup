@@ -41,44 +41,44 @@
     }
     
     if (window.cordova) {
-        document.addEventListener("resume", function(){ 
-            console.log('cordova file: '+cordova.file);
-            $.ajax({
-                method:'GET',
-                url: app.servidor+'validateAppVersion',
-                dataType: 'json',
-                data:{
-                    appVersion:value,
-                }
-            })
-            .done(function(response) {
-                console.log('done version'+JSON.stringify(response));  
-                if(response.status === 1){ 
-                    console.log('version actual'+response.message);
-                } else {
-                    console.log('version nueva'+response.message);
-                    function updateApp() {
-                       if (device.platform == 'Android') {
-                           //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
-                           fallbackLink =""
-                            window.open(fallbackLink, '_blank', 'location=yes'); 
-                        }
-                        if (device.platform == 'iOS') { 
-                            //fallbackLink = 'https://itunes.apple.com/us/app/FaciDoc/id1141940366?mt=8';
-                            fallbackLink =""
-                            window.open(fallbackLink, '_blank', 'location=yes'); 
-                        }                     
-                    }
+        // document.addEventListener("resume", function(){ 
+        //     console.log('cordova file: '+cordova.file);
+        //     $.ajax({
+        //         method:'GET',
+        //         url: app.servidor+'validateAppVersion',
+        //         dataType: 'json',
+        //         data:{
+        //             appVersion:value,
+        //         }
+        //     })
+        //     .done(function(response) {
+        //         console.log('done version'+JSON.stringify(response));  
+        //         if(response.status === 1){ 
+        //             console.log('version actual'+response.message);
+        //         } else {
+        //             console.log('version nueva'+response.message);
+        //             function updateApp() {
+        //                if (device.platform == 'Android') {
+        //                    //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
+        //                    fallbackLink =""
+        //                     window.open(fallbackLink, '_blank', 'location=yes'); 
+        //                 }
+        //                 if (device.platform == 'iOS') { 
+        //                     //fallbackLink = 'https://itunes.apple.com/us/app/FaciDoc/id1141940366?mt=8';
+        //                     fallbackLink =""
+        //                     window.open(fallbackLink, '_blank', 'location=yes'); 
+        //                 }                     
+        //             }
 
-                    navigator.notification.alert(
-                        response.message, // message
-                        updateApp, // callback
-                        'Actualización', // title
-                        'Ir a la tienda' // buttonName
-                    );
-                }
-            });
-        });
+        //             navigator.notification.alert(
+        //                 response.message, // message
+        //                 updateApp, // callback
+        //                 'Actualización', // title
+        //                 'Ir a la tienda' // buttonName
+        //             );
+        //         }
+        //     });
+        // });
         document.addEventListener('deviceready', function() {
             
             StatusBar.backgroundColorByHexString("#363e5f");
