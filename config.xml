@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.hitch" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>hitchup</name>
+    <name>hitch</name>
     <description>
         Hello World sample application that responds to the deviceready event.
     </description>
@@ -32,6 +32,7 @@
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
     <plugin name="onesignal-cordova-plugin" source="npm" spec="~1.12.4" />
     <plugin name="cordova-plugin-app-version" source="npm" spec="~0.1.9" />
+    <plugin name="cordova-plugin-x-socialsharing" source="npm" spec="~5.4.1" />
     <platform name="android">
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="www/res/icon/android/drawable-mdpi-icon.png" />
