@@ -69,11 +69,17 @@
         },
         "cordova-plugin-app-version": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.phonegap.hitch"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.phonegap.hitch"
         }
     }
 }
