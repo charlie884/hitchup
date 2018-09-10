@@ -103,7 +103,7 @@
                 });*/ 
                 
                 cordova.getAppVersion(function(value) {
-                    console.log('getAppVersion: '+value);
+                    alert('getAppVersion: '+value);
                     // Validate AppVersion
                     $.ajax({
                         method:'GET',
@@ -114,7 +114,7 @@
                         }
                     })
                     .done(function(response) {
-                        console.log(JSON.stringify(response));  
+                        console.log('json getAppVersion: '+JSON.stringify(response));  
                         if(response.status === 1){ 
                             console.log('version actual'+response.message);
                         } else {
@@ -132,6 +132,7 @@
                                 }                     
                             }
 
+                            alert('getAppVersion: '+response);
                             navigator.notification.alert(
                                 response.message, // message
                                 updateApp, // callback
