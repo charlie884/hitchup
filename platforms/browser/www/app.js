@@ -114,11 +114,11 @@
                         }
                     })
                     .done(function(response) {
-                        console.log('json getAppVersion: '+JSON.stringify(response));  
+                        alert('ajax getAppVersion: '+JSON.stringify(response));  
                         if(response.status === 1){ 
-                            console.log('version actual'+response.message);
+                            alert('version actual'+response.message);
                         } else {
-                            console.log('version nueva'+response.message);
+                            alert('version nueva'+response.message);
                             function updateApp() {
                                if (device.platform == 'Android') {
                                    //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
@@ -132,7 +132,7 @@
                                 }                     
                             }
 
-                            alert('getAppVersion: '+response);
+                            // alert('getAppVersion: '+response);
                             navigator.notification.alert(
                                 response.message, // message
                                 updateApp, // callback
