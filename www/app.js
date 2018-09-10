@@ -42,7 +42,7 @@
     
     if (window.cordova) {
         document.addEventListener("resume", function(){ 
-            // console.log('cordova file'+cordova.file);
+            console.log('cordova file: '+cordova.file);
             $.ajax({
                 method:'GET',
                 url: app.servidor+'validateAppVersion',
@@ -52,10 +52,11 @@
                 }
             })
             .done(function(response) {
-                console.log(JSON.stringify(response));  
+                console.log('done version'+JSON.stringify(response));  
                 if(response.status === 1){ 
-                    console.log(response.message);
+                    console.log('version actual'+response.message);
                 } else {
+                    console.log('version nueva'+response.message);
                     function updateApp() {
                        if (device.platform == 'Android') {
                            //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
@@ -102,7 +103,7 @@
                 });*/ 
                 
                 cordova.getAppVersion(function(value) {
-                    console.log(value);
+                    console.log('getAppVersion: '+value);
                     // Validate AppVersion
                     $.ajax({
                         method:'GET',
@@ -115,8 +116,9 @@
                     .done(function(response) {
                         console.log(JSON.stringify(response));  
                         if(response.status === 1){ 
-                            console.log(response.message);
+                            console.log('version actual'+response.message);
                         } else {
+                            console.log('version nueva'+response.message);
                             function updateApp() {
                                if (device.platform == 'Android') {
                                    //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
