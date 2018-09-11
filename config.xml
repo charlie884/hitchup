@@ -111,6 +111,8 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
+        <preference name="android-minSdkVersion" value="26"/> 
+        <preference name="android-targetSdkVersion" value="26"/>
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
