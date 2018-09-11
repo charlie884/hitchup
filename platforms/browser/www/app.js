@@ -118,16 +118,15 @@
                         if(response.status === 1){ 
                             // alert('version actual'+response.message);
                         } else {
-                            alert('version nueva'+response.message);
+                            // alert('version nueva'+response.message);
                             function updateApp() {
                                if (device.platform == 'Android') {
-                                   //fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldstudio.DirecTv&hl=es'; 
-                                   fallbackLink =""
+                                   fallbackLink = 'https://play.google.com/store/apps/details?id=com.emeraldStudio.MyHitchPlanner'; 
+                                   // fallbackLink =""
                                     window.open(fallbackLink, '_blank', 'location=yes'); 
                                 }
                                 if (device.platform == 'iOS') { 
-                                    //fallbackLink = 'https://itunes.apple.com/us/app/FaciDoc/id1141940366?mt=8';
-                                    fallbackLink =""
+                                    fallbackLink = 'https://itunes.apple.com/us/app/my-hitch-planner/id1311300344?l=es&ls=1&mt=8';
                                     window.open(fallbackLink, '_blank', 'location=yes'); 
                                 }                     
                             }
