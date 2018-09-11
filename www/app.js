@@ -103,7 +103,7 @@
                 });*/ 
                 
                 cordova.getAppVersion(function(value) {
-                    alert('getAppVersion: '+value);
+                    // alert('getAppVersion: '+value);
                     // Validate AppVersion
                     $.ajax({
                         method:'GET',
@@ -114,9 +114,9 @@
                         }
                     })
                     .done(function(response) {
-                        alert('ajax getAppVersion: '+JSON.stringify(response));  
+                        // alert('ajax getAppVersion: '+JSON.stringify(response));  
                         if(response.status === 1){ 
-                            alert('version actual'+response.message);
+                            // alert('version actual'+response.message);
                         } else {
                             alert('version nueva'+response.message);
                             function updateApp() {
